@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\add_goods.o
+./release\mainwindow.o
+./release\query_goods.o
+./release\del_goods.o
+./release\modify_goods.o
+./release\control_page.o
+./release\buy_goods.o
+./release\moc_add_goods.o
+./release\moc_mainwindow.o
+./release\moc_query_goods.o
+./release\moc_del_goods.o
+./release\moc_modify_goods.o
+./release\moc_control_page.o
+./release\moc_buy_goods.o
+);

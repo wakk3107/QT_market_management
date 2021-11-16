@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>query_goods</class>
+ <widget class="QDialog" name="query_goods">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>759</width>
+    <height>515</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,5,2">
+     <item>
+      <widget class="QComboBox" name="cbb_method">
+       <property name="styleSheet">
+        <string notr="true">font: 10pt &quot;宋体&quot;;</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>请选择查询方式</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>按名称查询</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>按类别查询</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>按厂家查询</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="le_cnt"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_query">
+       <property name="text">
+        <string>查询</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\add_goods.o
+./debug\mainwindow.o
+./debug\query_goods.o
+./debug\del_goods.o
+./debug\modify_goods.o
+./debug\control_page.o
+./debug\buy_goods.o
+./debug\moc_add_goods.o
+./debug\moc_mainwindow.o
+./debug\moc_query_goods.o
+./debug\moc_del_goods.o
+./debug\moc_modify_goods.o
+./debug\moc_control_page.o
+./debug\moc_buy_goods.o
+);
