@@ -6,28 +6,10 @@ query_goods::query_goods(QWidget *parent) :
     ui(new Ui::query_goods)
 {
     ui->setupUi(this);
-    if(read_from_flie()==-1)
-    {
-        QMessageBox::critical(this,"错误","文件打开失败，请重试");
-    }
-    else
-        this->close();
+    sql = MySQLProductManager::getInstance();
     //初始化表格
     this->model=new QStandardItemModel;
-    this->model->setHorizontalHeaderItem(0,new QStandardItem("商品类别"));
-    this->model->setHorizontalHeaderItem(1,new QStandardItem("名称"));
-    this->model->setHorizontalHeaderItem(2,new QStandardItem("价格"));
-    this->model->setHorizontalHeaderItem(3,new QStandardItem("库存"));
-    this->model->setHorizontalHeaderItem(4,new QStandardItem("品牌"));
-    this->model->setHorizontalHeaderItem(5,new QStandardItem("生产厂家"));
-    this->ui->tableView->setModel(model);
-    this->ui->tableView->setColumnWidth(0,100);
-    this->ui->tableView->setColumnWidth(1,160);
-    this->ui->tableView->setColumnWidth(2,70);
-    this->ui->tableView->setColumnWidth(3,70);
-    this->ui->tableView->setColumnWidth(4,100);
-    this->ui->tableView->setColumnWidth(5,200);
-    this->ui->le_cnt->setFocus();
+    sql->getProductsFromDatabase(model);
 }
 
 query_goods::~query_goods()
@@ -68,54 +50,50 @@ void query_goods::on_btn_query_clicked()
     emit re();
 }
 //查询功能的实现
-void query_goods::do_query(int index,QString cnt)
+void query_goods::do_query(int index, QString cnt)
 {
-    int cur_row=0;
-    int i=0;
-    for(i=0;i<goods_lines.size();i++)
-    {
-        QString line=goods_lines[i].trimmed();
-        QStringList subs=line.split(' ');
-        //按查询方法查询
-        switch(index)
-        {
-        case 1:
-            if(cnt==subs[1])
-            {
-                display(cur_row,subs);
-                cur_row++;
-            }
-
-            break;
-        case 2:
-            if(cnt==subs[0])
-            {
-                display(cur_row,subs);
-                cur_row++;
-            }
-            break;
-        case 3:
-            if(cnt==subs[5])
-            {
-                display(cur_row,subs);
-                cur_row++;
-            }
-            break;
-        default:
-            QMessageBox::critical(this,"错误","未找到该商品！");
-            break;
-
-        }
+    switch(index) {
+    case 1:
+        display(sql->getProductByName(cnt));
+        break;
+    case 2:
+        display(sql->getProductByCategory(cnt));
+        break;
+    case 3:
+        display(sql->getProductByManufacturer(cnt));
+        break;
     }
+
 }
 //填充表格内容
-void query_goods::display(int row,QStringList subs)
+void query_goods::display(QSqlQuery result)
 {
-    int i=0;
-    for(i=0;i<6;i++)
-    {
-        this->model->setItem(row,i,new QStandardItem(subs[i]));
-        this->model->item(row,i)->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    int row = 0;
+    while (result.next()) {
+        QString category = result.value("category").toString();
+        QString name = result.value("name").toString();
+        double price = result.value("price").toDouble();
+        int stock = result.value("stock").toInt();
+        QString brand = result.value("brand").toString();
+        QString manufacturer = result.value("manufacturer").toString();
+
+        // 创建QStandardItem对象并设置数据
+        QStandardItem* categoryItem = new QStandardItem(category);
+        QStandardItem* nameItem = new QStandardItem(name);
+        QStandardItem* priceItem = new QStandardItem(QString::number(price));
+        QStandardItem* stockItem = new QStandardItem(QString::number(stock));
+        QStandardItem* brandItem = new QStandardItem(brand);
+        QStandardItem* manufacturerItem = new QStandardItem(manufacturer);
+
+        // 添加每一行的项目
+        model->setItem(row, 0, categoryItem);
+        model->setItem(row, 1, nameItem);
+        model->setItem(row, 2, priceItem);
+        model->setItem(row, 3, stockItem);
+        model->setItem(row, 4, brandItem);
+        model->setItem(row, 5, manufacturerItem);
+
+        row++;
     }
 
 }

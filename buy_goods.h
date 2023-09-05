@@ -8,6 +8,8 @@
 #include<QTextStream>
 #include<QMessageBox>
 #include<QInputDialog>
+#include <mysqlproductmanager.h>
+#include <QSqlQuery>
 namespace Ui {
 class buy_goods;
 }
@@ -24,7 +26,6 @@ private slots:
     void on_btn_cancel_clicked();
     int renew_file();
     void on_btn_query_clicked();
-    int read_from_flie();
 
     void on_btn_buy_clicked();
 signals:
@@ -32,6 +33,7 @@ signals:
 private:
     Ui::buy_goods *ui;
     QList<QString> goods_lines;
+    MySQLProductManager* sql;
 };
 
 #endif // BUY_GOODS_H

@@ -7,6 +7,7 @@
 #include"del_goods.h"
 #include"modify_goods.h"
 #include"buy_goods.h"
+#include"mysqlproductmanager.h"
 namespace Ui {
 class control_page;
 }
@@ -28,9 +29,9 @@ private slots:
     void on_btn_modify_clicked();
 
     void on_btn_query_clicked();
-    void table_init();
+
     void display();
-    int read_from_flie();
+
     void on_btn_buy_clicked();
 
 private:
@@ -42,6 +43,7 @@ private:
     Ui::control_page *ui;
     QList<QString> goods_lines;
     QStandardItemModel* model;
+    MySQLProductManager* sql;
 };
 
 #endif // CONTROL_PAGE_H

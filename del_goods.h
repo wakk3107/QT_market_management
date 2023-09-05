@@ -8,6 +8,7 @@
 #include<QIODevice>
 #include<QTextStream>
 #include<QMessageBox>
+#include <mysqlproductmanager.h>
 
 namespace Ui {
 class del_goods;
@@ -23,15 +24,12 @@ public:
 
 public slots:
     void on_btn_cancel_clicked();
-    QString find_from_files(QString cnt,QString cnt1);
-    void del(QString subs);
-    int read_from_flie();
     void on_btn_del_clicked();
 signals:
     void re();
 private:
     Ui::del_goods *ui;
-    QList<QString> goods_lines;
+    MySQLProductManager* sql;
 };
 
 #endif // DEL_GOODS_H

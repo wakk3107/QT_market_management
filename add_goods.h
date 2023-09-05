@@ -11,6 +11,7 @@
 #include<QFile>
 #include<QTextStream>
 #include<QIODevice>
+#include <mysqlproductmanager.h>
 namespace Ui {
 class add_goods;
 }
@@ -25,14 +26,13 @@ public:
 
 public slots:
     void on_btn_cancel_clicked();
-//    bool is_find(QString tar);
     void on_btn_add_clicked();
-    void write_to_file(QString cnt);
     void clear_user_intface();
 signals:
     void re();
 private:
     Ui::add_goods *ui;
+    MySQLProductManager* sql;
 };
 
 #endif // ADD_GOODS_H

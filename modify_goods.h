@@ -8,7 +8,7 @@
 #include<QIODevice>
 #include<QTextStream>
 #include<QMessageBox>
-
+#include <mysqlproductmanager.h>
 
 namespace Ui {
 class modify_goods;
@@ -24,15 +24,13 @@ public:
 
 public slots:
     void on_btn_query_clicked();
-    int read_from_flie();
     void on_btn_cancel_clicked();
-    int renew_file();
     void on_btn_submit_clicked();
 signals:
     void re();
 private:
     Ui::modify_goods *ui;
-    QList<QString> goods_lines;
+    MySQLProductManager* sql;
 };
 
 #endif // MODIFY_GOODS_H

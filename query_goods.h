@@ -11,6 +11,7 @@
 #include<QStringList>
 #include<QStandardItem>
 #include<QStandardItemModel>
+#include <mysqlproductmanager.h>
 
 namespace Ui {
 class query_goods;
@@ -28,12 +29,13 @@ signals:
 public slots:
     void on_btn_query_clicked();
     void do_query(int index,QString cnt);
-    void display(int row,QStringList subs);
+    void display(QSqlQuery result);
     int read_from_flie();
 private:
     Ui::query_goods *ui;
     QList<QString> goods_lines;
     QStandardItemModel* model;
+    MySQLProductManager* sql;
 };
 
 #endif // QUERY_GOODS_H

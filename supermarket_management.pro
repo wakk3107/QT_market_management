@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,6 +15,7 @@ TEMPLATE = app
 SOURCES += main.cpp\
         add_goods.cpp \
     mainwindow.cpp \
+    mysqlproductmanager.cpp \
     query_goods.cpp \
     del_goods.cpp \
     modify_goods.cpp \
@@ -23,6 +24,7 @@ SOURCES += main.cpp\
 
 HEADERS  += add_goods.h \
     mainwindow.h \
+    mysqlproductmanager.h \
     query_goods.h \
     del_goods.h \
     modify_goods.h \

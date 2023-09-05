@@ -6,6 +6,7 @@ modify_goods::modify_goods(QWidget *parent) :
     ui(new Ui::modify_goods)
 {
     ui->setupUi(this);
+    sql = MySQLProductManager::getInstance();
 }
 
 modify_goods::~modify_goods()
@@ -15,44 +16,35 @@ modify_goods::~modify_goods()
 
 void modify_goods::on_btn_query_clicked()
 {
-    read_from_flie();
+
+    QString ki=this->ui->cbb_kind->currentText();
+    if(this->ui->cbb_kind->currentIndex()==0)
+    {   QMessageBox::critical(this,"错误","种类未选择");
+        return;
+    }
     QString tar=this->ui->le_cnt->text();
-    int i=0;
-    for(i=0;i<goods_lines.size();i++)
-    {
-        QString line=goods_lines[i].trimmed();
-        QStringList subs=line.split(' ');
-        if(subs[1]==tar)
-        {
-            this->ui->cbb_kind->setCurrentText(subs[0]);
-            this->ui->le_name->setText(subs[1]);
-            this->ui->le_price->setText(subs[2]);
-            this->ui->le_store->setText(subs[3]);
-            this->ui->le_logo->setText(subs[4]);
-            this->ui->le_maker->setText(subs[5]);
-            break;
-        }
-    }
-}
-int modify_goods::read_from_flie()
-{
-    QFile file("goods.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        return -1;
-    }
-    QTextStream in(&file);
-    goods_lines.clear();
-    while(!in.atEnd())
-    {
-        QString line=in.readLine().trimmed();
-        if(line=="")continue;
-        goods_lines.append(line);
+    //提取出目标商品的信息
+    auto result = sql->getProductByCategoryAndName(ki, tar);
+    if(result.next()) {
+        // 获取商品信息
+        QString categoryName = result.value("category").toString();
+        QString productName = result.value("name").toString();
+        QString price = result.value("price").toString();
+        QString stock = result.value("stock").toString();
+        QString brand = result.value("brand").toString();
+        QString manufacturer = result.value("manufacturer").toString();
+        this->ui->le_name->setText(productName);
+        this->ui->le_price->setText(price);
+        this->ui->le_store->setText(stock);
+        this->ui->le_logo->setText(brand);
+        this->ui->le_maker->setText(manufacturer);
 
     }
-    file.close();
-    return 0;
+
+    if(this->ui->le_name->text().isEmpty())
+        QMessageBox::critical(this,"错误","未找到该商品！");
 }
+
 void modify_goods::on_btn_cancel_clicked()
 {
     this->close();
@@ -67,52 +59,13 @@ void modify_goods::on_btn_submit_clicked()
     QString store=this->ui->le_store->text();
     QString logo=this->ui->le_logo->text();
     QString maker=this->ui->le_maker->text();
-    QString cnt=kind+" "+name+' '+price+' '+store+' '+logo+' '+maker;
-    //修改目标商品的内容
-    int i=0;
-    for(i=0;i<goods_lines.size();i++)
-    {
-        QString line=goods_lines[i].trimmed();
-        QStringList subs=line.split(' ');
-        if(subs[1]==name)
-        {
-            goods_lines[i]=cnt;
-            break;
-        }
-    }
-    if(renew_file()==0)
-    {
+
+    if(sql->updateProduct(kind, name, price.toDouble(), store.toInt(), logo, maker)) {
         QMessageBox::about(this,"成功","成功修改信息！");
-        this->ui->le_name->clear();
-        this->ui->cbb_kind->setCurrentIndex(0);
-        this->ui->le_price->clear();
-        this->ui->le_store->clear();
-        this->ui->le_logo->clear();
-        this->ui->le_maker->clear();
-        this->ui->le_cnt->clear();
-        this->ui->le_cnt->setFocus();
+        emit re();
+        this->hide();
+    } else {
+        QMessageBox::critical(this, "错误", "修改信息失败！");
     }
-    emit re();
-}
-//更新数据文件
-int modify_goods::renew_file()
-{
-    //覆盖到原文件中
-    QFile f("goods.txt");
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QMessageBox::critical(this,"错误","文件打开失败！信息未保存！");
-        return -1;
-    }
-
-    for(int i=0;i<goods_lines.size();i++)
-    {
-        QTextStream out(&f);
-        out<<goods_lines[i];
-        out<<"\n";
-
-    }
-    f.close();
-    return 0;
 
 }
