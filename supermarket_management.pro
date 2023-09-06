@@ -16,20 +16,24 @@ SOURCES += main.cpp\
         add_goods.cpp \
     mainwindow.cpp \
     mysqlproductmanager.cpp \
+    mysqlusermanagement.cpp \
     query_goods.cpp \
     del_goods.cpp \
     modify_goods.cpp \
     control_page.cpp \
-    buy_goods.cpp
+    buy_goods.cpp \
+    registerwindow.cpp
 
 HEADERS  += add_goods.h \
     mainwindow.h \
     mysqlproductmanager.h \
+    mysqlusermanagement.h \
     query_goods.h \
     del_goods.h \
     modify_goods.h \
     control_page.h \
-    buy_goods.h
+    buy_goods.h \
+    registerwindow.h
 
 FORMS    += add_goods.ui \
     mainwindow.ui \

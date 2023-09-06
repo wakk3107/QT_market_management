@@ -44,7 +44,9 @@ void MainWindow::on_btn_cancel_clicked()
 
 void MainWindow::on_btn_login_clicked()
 {
-    if(this->ui->le_user->text()=="root"&&this->ui->le_passwd->text()=="123")
+    MySQLUserManagement valid;
+
+    if(valid.isLoginValid(this->ui->le_user->text(), this->ui->le_passwd->text()))
     {
      cp=new control_page();
      cp->show();
@@ -54,4 +56,10 @@ void MainWindow::on_btn_login_clicked()
     {
         QMessageBox::critical(this,"错误","账号或密码错误");
     }
+}
+
+void MainWindow::on_b_register_clicked()
+{
+    RegisterWindow r;
+    r.exec();
 }

@@ -7,6 +7,7 @@
 #include"del_goods.h"
 #include"modify_goods.h"
 #include"control_page.h"
+#include "registerwindow.h"
 namespace Ui {
 class MainWindow;
 }
@@ -31,6 +32,9 @@ public slots:
     void on_btn_cancel_clicked();
 
     void on_btn_login_clicked();
+
+private slots:
+    void on_b_register_clicked();
 
 private:
     Ui::MainWindow *ui;
